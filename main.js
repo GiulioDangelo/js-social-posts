@@ -102,7 +102,11 @@ for (let i = 0; i < posts.length; i++) {
 
 const likeBtn = document.querySelectorAll('.like-button')
 
-for (const key of likeBtn) {
-    key.addEventListener("click", function() {
-        key.classList.toggle('like-button--liked') 
-    })}
+likeBtn.forEach(likeBtn => {
+    likeBtn.addEventListener("click", function () {
+        likeBtn.classList.toggle('like-button--liked')
+    })
+})
+
+
+let likedPost = []
