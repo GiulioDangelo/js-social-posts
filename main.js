@@ -106,9 +106,11 @@ likeBtn.forEach(likeBtn => {
     likeBtn.addEventListener("click", function () {
         likeBtn.classList.toggle('like-button--liked')
 
-        let counterLike = document.querySelector('.js-likes-counter').innerHTML
+        let counterLike = document.querySelector('.js-likes-counter')
         if (likeBtn.classList.contains('like-button--liked')) {
-            counterLike++;
+            counterLike.innerHTML++;
+        } else if (!likeBtn.classList.contains('like-button--liked')) {
+            counterLike.innerHTML--;
         }
         
     })
