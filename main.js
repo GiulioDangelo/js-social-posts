@@ -42,7 +42,7 @@ const posts = [
 		media: "https://unsplash.it/600/400?image=24",
 		author: {
 			name: "Luca Formicola",
-			image: '',
+			image: "",
 		},
 		likes: 56,
 		created: "2021-04-03",
@@ -61,11 +61,13 @@ const posts = [
 	},
 ];
 
+
+
 const container = document.querySelector(".posts-list");
 
 for (let i = 0; i < posts.length; i++) {
-	container.innerHTML += 
-`<div class="post">
+	const dataInvertita = invertDate(posts[i].created);
+	container.innerHTML += `<div class="post">
     <div class="post__header">
         <div class="post-meta">                    
             <div class="post-meta__icon">
@@ -73,7 +75,7 @@ for (let i = 0; i < posts.length; i++) {
             </div>
             <div class="post-meta__data">
                 <div class="post-meta__author">${posts[i].author.name}</div>
-                <div class="post-meta__time">${posts[i].created}</div>
+                <div class="post-meta__time">${dataInvertita}</div>
             </div>                    
         </div>
     </div>
@@ -90,36 +92,45 @@ for (let i = 0; i < posts.length; i++) {
                 </a>
             </div>
             <div class="likes__counter">
-                Piace a <b id="like-counter-1" class="js-likes-counter">${posts[i].likes}</b> persone
+                Piace a <b id="like-counter-${posts[i].id}" class="js-likes-counter">${posts[i].likes}</b> persone
             </div>
         </div> 
-    </div>            
-</div>`;
-
+        </div>            
+        </div>`;
 }
 
 
 
-const likeBtn = document.querySelectorAll('.like-button')
-// const dataId = document.querySelectorAll('data-postid'.innerHTML)
+let likedPost = [];
+const likeBtn = document.querySelectorAll(".like-button");
+const eleCounters = document.querySelectorAll(".js-likes-counter");
 
-likeBtn.forEach(likeBtn => {
-    likeBtn.addEventListener("click", function () {
-        likeBtn.classList.toggle('like-button--liked')
+for (let i = 0; i < likeBtn.length; i++) {
+	const elelike = likeBtn[i];
 
-        let counterLike = document.querySelector('.js-likes-counter')
-        if (likeBtn.classList.contains('like-button--liked')) {
-            counterLike.innerHTML++;
-            // likedPost.push(dataId)
+	elelike.addEventListener("click", function () {
+		const eleCounter = eleCounters[i];
 
-        } else if (!likeBtn.classList.contains('like-button--liked')) {
-            counterLike.innerHTML--;
-        }
-        
-    })
-})
+		if (elelike.classList.contains("like-button--liked")) {
+			posts[i].likes -= 1;
+		} else {
+			posts[i].likes += 1;
+			likedPost.push(container);
+			console.log("liked", likedPost);
+		}
+
+		elelike.classList.toggle("like-button--liked");
+		eleCounter.innerHTML = `${posts[i].likes}`;
+	});
+}
 
 
-let likedPost = []
 
-console.log(likedPost)
+
+
+
+//function---------------------------------------------------
+function invertDate(date) {
+	const parts = date.split("-");
+	return parts[2] + "-" + parts[1] + "-" + parts[0];
+}
