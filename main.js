@@ -63,54 +63,79 @@ const posts = [
 
 
 
+//add container 
 const container = document.querySelector(".posts-list");
 
 for (let i = 0; i < posts.length; i++) {
+	//invert date from (yyyy-mm-dd) to (dd-mm-yyyy)
 	const dataInvertita = invertDate(posts[i].created);
+
+	//add name initials if image is not present
 	const noImg = posts[i].author.image || 'https://via.placeholder.com/150x150.png?text=' + getInitials(posts[i].author.name);
-	container.innerHTML += `<div class="post">
-    <div class="post__header">
-        <div class="post-meta">                    
-            <div class="post-meta__icon">
-                <img class="profile-pic" src="${noImg}" alt="${getInitials(posts[i].author.name)}">                    
-            </div>
-            <div class="post-meta__data">
-                <div class="post-meta__author">${posts[i].author.name}</div>
-                <div class="post-meta__time">${dataInvertita}</div>
-            </div>                    
-        </div>
-    </div>
-    <div class="post__text">${posts[i].content}</div>
-    <div class="post__image">
-        <img src="${posts[i].media}" alt="">
-    </div>
-    <div class="post__footer">
-        <div class="likes js-likes">
-            <div class="likes__cta">
-                <a class="like-button  js-like-button" data-postid="${posts[i].id}">
-                    <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                    <span class="like-button__label">Mi Piace</span>
-                </a>
-            </div>
-            <div class="likes__counter">
-                Piace a <b id="like-counter-${posts[i].id}" class="js-likes-counter">${posts[i].likes}</b> persone
-            </div>
-        </div> 
-        </div>            
-        </div>`;
+
+	//create cards and add posts data
+	container.innerHTML += `
+		<div class="post">
+
+		<div class="post__header">
+			<div class="post-meta">
+
+				<div class="post-meta__icon">
+					<img class="profile-pic" src="${noImg}" alt="${getInitials(posts[i].author.name)}">
+				</div>
+
+				<div class="post-meta__data">
+					<div class="post-meta__author">${posts[i].author.name}</div>
+					<div class="post-meta__time">${dataInvertita}</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="post__text">${posts[i].content}</div>
+		
+		<div class="post__image">
+			<img src="${posts[i].media}" alt="">
+		</div>
+
+		<div class="post__footer">
+			<div class="likes js-likes">
+
+				<div class="likes__cta">
+					<a class="like-button  js-like-button" data-postid="${posts[i].id}">
+						<i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+						<span class="like-button__label">Mi Piace</span>
+					</a>
+				</div>
+
+				<div class="likes__counter">
+					Piace a <b id="like-counter-${posts[i].id}" class="js-likes-counter">${posts[i].likes}</b> persone
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	`;
 }
 
 
 
+//add liked post in array
 let likedPost = [];
+
+//select like button
 const likeBtn = document.querySelectorAll(".like-button");
+
+//select like counter
 const eleCounters = document.querySelectorAll(".js-likes-counter");
 
+//increment likes counter when click on like button
 for (let i = 0; i < likeBtn.length; i++) {
 	const elelike = likeBtn[i];
 
 	elelike.addEventListener("click", function () {
-		const eleCounter = eleCounters[i];
+		const Counter = eleCounters[i];
 
 		if (elelike.classList.contains("like-button--liked")) {
 			posts[i].likes -= 1;
@@ -120,7 +145,7 @@ for (let i = 0; i < likeBtn.length; i++) {
 		}
 
 		elelike.classList.toggle("like-button--liked");
-		eleCounter.innerHTML = posts[i].likes;
+		Counter.innerHTML = posts[i].likes;
 	});
 }
 
