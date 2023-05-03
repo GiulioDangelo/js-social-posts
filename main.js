@@ -42,7 +42,7 @@ const posts = [
 		media: "https://unsplash.it/600/400?image=24",
 		author: {
 			name: "Luca Formicola",
-			image: null,
+			image: '',
 		},
 		likes: 56,
 		created: "2021-04-03",
@@ -84,7 +84,7 @@ for (let i = 0; i < posts.length; i++) {
     <div class="post__footer">
         <div class="likes js-likes">
             <div class="likes__cta">
-                <a class="like-button  js-like-button" href="#" data-postid="1">
+                <a class="like-button  js-like-button" href="#" data-postid="${posts[i].id}">
                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                     <span class="like-button__label">Mi Piace</span>
                 </a>
@@ -100,10 +100,9 @@ for (let i = 0; i < posts.length; i++) {
 
 
 
-const btn = document.querySelectorAll('.like-button')
+const likeBtn = document.querySelectorAll('.like-button')
 
-
-btn.addEventListener('click', function () {
-    btn.clasList.add('.like-button--liked')
-    console.log('premuto')
-})
+for (const key of likeBtn) {
+    key.addEventListener("click", function() {
+        key.classList.toggle('like-button--liked') 
+    })}
