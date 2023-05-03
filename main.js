@@ -42,7 +42,7 @@ const posts = [
 		media: "https://unsplash.it/600/400?image=24",
 		author: {
 			name: "Luca Formicola",
-			image: "",
+			image: null,
 		},
 		likes: 56,
 		created: "2021-04-03",
@@ -67,11 +67,12 @@ const container = document.querySelector(".posts-list");
 
 for (let i = 0; i < posts.length; i++) {
 	const dataInvertita = invertDate(posts[i].created);
+	const noImg = posts[i].author.image || 'https://via.placeholder.com/150x150.png?text=' + getInitials(posts[i].author.name);
 	container.innerHTML += `<div class="post">
     <div class="post__header">
         <div class="post-meta">                    
             <div class="post-meta__icon">
-                <img class="profile-pic" src="${posts[i].author.image}" alt="Phil Mangione">                    
+                <img class="profile-pic" src="${noImg}" alt="${getInitials(posts[i].author.name)}">                    
             </div>
             <div class="post-meta__data">
                 <div class="post-meta__author">${posts[i].author.name}</div>
@@ -116,11 +117,10 @@ for (let i = 0; i < likeBtn.length; i++) {
 		} else {
 			posts[i].likes += 1;
 			likedPost.push(container);
-			console.log("liked", likedPost);
 		}
 
 		elelike.classList.toggle("like-button--liked");
-		eleCounter.innerHTML = `${posts[i].likes}`;
+		eleCounter.innerHTML = posts[i].likes;
 	});
 }
 
@@ -133,4 +133,9 @@ for (let i = 0; i < likeBtn.length; i++) {
 function invertDate(date) {
 	const parts = date.split("-");
 	return parts[2] + "-" + parts[1] + "-" + parts[0];
+}
+
+
+function getInitials(name) {
+    return name.split(' ').map(word => word.charAt(0)).join('').toUpperCase();
 }
